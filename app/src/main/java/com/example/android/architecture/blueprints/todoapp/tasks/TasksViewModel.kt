@@ -35,6 +35,7 @@ import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepo
 import com.example.android.architecture.blueprints.todoapp.tasks.TasksFilterType.ACTIVE_TASKS
 import com.example.android.architecture.blueprints.todoapp.tasks.TasksFilterType.ALL_TASKS
 import com.example.android.architecture.blueprints.todoapp.tasks.TasksFilterType.COMPLETED_TASKS
+import com.example.android.architecture.blueprints.todoapp.tasks.TasksFilterType.ALPHABETIC_TASKS
 import kotlinx.coroutines.launch
 
 /**
@@ -105,7 +106,8 @@ class TasksViewModel(
      *
      * @param requestType Can be [TasksFilterType.ALL_TASKS],
      * [TasksFilterType.COMPLETED_TASKS], or
-     * [TasksFilterType.ACTIVE_TASKS]
+     * [TasksFilterType.ACTIVE_TASKS], or
+     * [TasksFilterType.ALPHABETIC_TASKS]
      */
     fun setFiltering(requestType: TasksFilterType) {
         savedStateHandle.set(TASKS_FILTER_SAVED_STATE_KEY, requestType)
@@ -127,6 +129,12 @@ class TasksViewModel(
             COMPLETED_TASKS -> {
                 setFilter(
                     R.string.label_completed, R.string.no_tasks_completed,
+                    R.drawable.ic_verified_user_96dp, false
+                )
+            }
+            ALPHABETIC_TASKS -> {
+                setFilter(
+                    R.string.label_alphabetic, R.string.no_tasks_completed,
                     R.drawable.ic_verified_user_96dp, false
                 )
             }
@@ -218,7 +226,7 @@ class TasksViewModel(
     }
 
     private fun filterItems(tasks: List<Task>, filteringType: TasksFilterType): List<Task> {
-        val tasksToShow = ArrayList<Task>()
+        var tasksToShow = ArrayList<Task>()
         // We filter the tasks based on the requestType
         for (task in tasks) {
             when (filteringType) {
@@ -229,7 +237,11 @@ class TasksViewModel(
                 COMPLETED_TASKS -> if (task.isCompleted) {
                     tasksToShow.add(task)
                 }
+                ALPHABETIC_TASKS -> tasksToShow.add(task)
             }
+        }
+        if (filteringType==ALPHABETIC_TASKS) {
+            tasksToShow = ArrayList<Task>(tasksToShow.sortedWith(Task.TaskComparator).toList())
         }
         return tasksToShow
         }

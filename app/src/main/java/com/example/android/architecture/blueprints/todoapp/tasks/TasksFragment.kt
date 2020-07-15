@@ -123,6 +123,7 @@ class TasksFragment : Fragment() {
                     when (it.itemId) {
                         R.id.active -> TasksFilterType.ACTIVE_TASKS
                         R.id.completed -> TasksFilterType.COMPLETED_TASKS
+                        R.id.alphabetic -> TasksFilterType.ALPHABETIC_TASKS
                         else -> TasksFilterType.ALL_TASKS
                     }
                 )

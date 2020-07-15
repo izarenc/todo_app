@@ -45,4 +45,10 @@ data class Task @JvmOverloads constructor(
 
     val isEmpty
         get() = title.isEmpty() || description.isEmpty()
+
+    class TaskComparator {
+        companion object : Comparator<Task> {
+            override fun compare(a: Task, b: Task): Int = a.title.compareTo(b.title)
+        }
+    }
 }

@@ -32,5 +32,10 @@ enum class TasksFilterType {
     /**
      * Filters only the completed tasks.
      */
-    COMPLETED_TASKS
+    COMPLETED_TASKS,
+
+    /**
+     * Sorts tasks alphabetically.
+     */
+    ALPHABETIC_TASKS
 }
